@@ -1,8 +1,8 @@
 app_name = "einvoice_erpgulf"
 app_title = "einvoice_erpgulf"
-app_publisher = "ERPGulf.com"
-app_description = "E-Invoice app for ERPNext that can be adopted for any country from ERPGulf.com"
-app_email = "support@erpgulf.com"
+app_publisher = "thinkNXG"
+app_description = "E-Invoice app for thinkNXG ERP that can be adopted for any country from thinkNXG"
+app_email = "support@thinknxg.com"
 app_license = "mit"
 required_apps = ["erpnext"]
 

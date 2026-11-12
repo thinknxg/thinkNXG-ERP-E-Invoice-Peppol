@@ -1,6 +1,6 @@
-# UAE E-Invoicing for ERPNext — End User Guide
+# UAE E-Invoicing for thinkNXG ERP — End User Guide
 
-This guide is for the accountant or administrator who sets up and uses e-invoicing inside ERPNext. It is written for a company in the **United Arab Emirates**; on a Company in another country the screens are the same and only the labels differ (the provider field is called *Peppol Access Point* in Belgium, the region field is *Governorate* in Oman, the ribbon names that country's tax authority). It assumes a working ERPNext site with the `einvoice_erpgulf` app installed (see the [README](../README.md) for installation) and an account with your chosen Accredited Service Provider (ASP).
+This guide is for the accountant or administrator who sets up and uses e-invoicing inside thinkNXG ERP. It is written for a company in the **United Arab Emirates**; on a Company in another country the screens are the same and only the labels differ (the provider field is called *Peppol Access Point* in Belgium, the region field is *Governorate* in Oman, the ribbon names that country's tax authority). It assumes a working thinkNXG ERP site with the `einvoice_erpgulf` app installed (see the [README](../README.md) for installation) and an account with your chosen Accredited Service Provider (ASP).
 
 Terms used throughout: **ASP** is the provider that carries your invoice to the FTA (Flick, Marmin or Suntech today). **TRN** is your 15-digit VAT registration number. **Peppol ID / Participant ID** is your identity on the Peppol network, derived from the TRN (scheme `0235`). **Reporting Status** is what the FTA said about the invoice; **E-Invoice Status** is whether the ASP accepted the submission.
 
@@ -16,7 +16,7 @@ Open **Company** → your company → tab *UAE E-invoicing* (or scroll to the cu
 | --- | --- |
 | E-Invoice Enabled | Tick. Until this is ticked the app does nothing for this company. |
 | Accredited Service Providers | Your ASP. The dropdown lists every FTA-accredited ASP, but Company only saves with one that has an adapter in the app; the others are refused with a message naming the supported ones. |
-| Allow credit-note without original invoice in the system | Tick only if you issue credit notes against invoices that were never in ERPNext (migration cases). |
+| Allow credit-note without original invoice in the system | Tick only if you issue credit notes against invoices that were never in thinkNXG ERP (migration cases). |
 | Tax ID | Your 15-digit TRN. The Peppol ID (first 10 digits) is derived from it. |
 | Address | The company's default address must have *Country* and, for the UAE, *Emirate* filled. |
 
@@ -84,11 +84,11 @@ On each **Mode of Payment** used for POS or payment entries, fill *Payment Means
 | Invoice Transaction Type Code | When the supply is special | Free trade zone, Deemed supply, Margin scheme, Summary, Continuous, Disclosed agent, E-commerce, Export |
 | Frequency Billing Code List, Invoice Note | Periodic / summary invoices | DLY, WKY, MTH … or OTH + note |
 | Credit Note Reason Code | Credit notes (Is Return) | DL8.61.1.A Cancellation … VD Void |
-| Skip Validation for Credit Note | Credit notes without an original invoice in ERPNext | Lets ERPNext accept a return whose items were never invoiced here |
+| Skip Validation for Credit Note | Credit notes without an original invoice in thinkNXG ERP | Lets thinkNXG ERP accept a return whose items were never invoiced here |
 
 Hover the small info icon next to each field for a one-line explanation; clicking it opens the field reference.
 
-**Discounts.** A discount on an item row (*Discount %* or *Discount Amount*) is applied to that row's rate by ERPNext and is sent to every ASP as the discounted line value; the FTA sees the net price, not a separate allowance. An invoice-level *Additional Discount* is sent as a document allowance by Suntech and Flick. With Marmin it is not transmitted yet, so the FTA copy would show the undiscounted total: until that is fixed, put discounts on the item rows when Marmin is the ASP, not in *Additional Discount*. Free-of-charge items (100% discount) go out as zero-rate lines.
+**Discounts.** A discount on an item row (*Discount %* or *Discount Amount*) is applied to that row's rate by thinkNXG ERP and is sent to every ASP as the discounted line value; the FTA sees the net price, not a separate allowance. An invoice-level *Additional Discount* is sent as a document allowance by Suntech and Flick. With Marmin it is not transmitted yet, so the FTA copy would show the undiscounted total: until that is fixed, put discounts on the item rows when Marmin is the ASP, not in *Additional Discount*. Free-of-charge items (100% discount) go out as zero-rate lines.
 
 ### 2.2 What happens on Submit
 
@@ -115,13 +115,13 @@ You rarely need these: the scheduler performs the status check and attachment fo
 
 ### 2.4 Cancelling is not allowed once sent
 
-An invoice that has been sent for e-invoicing (ASP status *Success*, or Reporting Status *pending* / *reported*) cannot be cancelled or amended in ERPNext: the FTA already holds it, and cancelling here would leave the two out of step. Cancel is refused with "This invoice has already been sent for UAE e-invoicing … Create a Credit Note (Return) against it instead." Invoices whose submission *failed* or was *rejected*, or that were never sent, cancel normally.
+An invoice that has been sent for e-invoicing (ASP status *Success*, or Reporting Status *pending* / *reported*) cannot be cancelled or amended in thinkNXG ERP: the FTA already holds it, and cancelling here would leave the two out of step. Cancel is refused with "This invoice has already been sent for UAE e-invoicing … Create a Credit Note (Return) against it instead." Invoices whose submission *failed* or was *rejected*, or that were never sent, cancel normally.
 
 ### 2.5 Credit notes
 
 Create the return from the original Sales Invoice (*Create → Return / Credit Note*) so *Return Against* is filled, choose a *Credit Note Reason Code*, and submit. It is sent as a credit note (type 381) referencing the original.
 
-For a credit note against an invoice that is not in ERPNext: tick *Allow credit-note without original invoice in the system* on Company, create a new Sales Invoice with *Is Return* ticked, fill *Return Against For UAE E-invoice* with the original invoice number, tick *Skip Validation for Credit Note*, and submit.
+For a credit note against an invoice that is not in thinkNXG ERP: tick *Allow credit-note without original invoice in the system* on Company, create a new Sales Invoice with *Is Return* ticked, fill *Return Against For UAE E-invoice* with the original invoice number, tick *Skip Validation for Credit Note*, and submit.
 
 ### 2.6 Sending many invoices at once
 
@@ -139,7 +139,7 @@ Purchase Invoices are **self-billed** documents: your company is the buyer, the 
 
 ### 3.1 Importing invoices your suppliers sent you
 
-When a supplier's ASP delivers an invoice to your Peppol ID, your ASP pushes it to ERPNext by webhook and it appears in **E-Invoice Incoming Invoice** with status *Not Submitted* and the original JSON attached.
+When a supplier's ASP delivers an invoice to your Peppol ID, your ASP pushes it to thinkNXG ERP by webhook and it appears in **E-Invoice Incoming Invoice** with status *Not Submitted* and the original JSON attached.
 
 To turn them into Purchase Invoices: open **Purchase Invoice → New**, *Get Items From → Get FTA Incoming Invoices*. The dialog **FTA Incoming Invoices – Not Submitted** lists each document ID; tick the ones to import and click **Import Selected**. For every selected record a *draft* Purchase Invoice is created with the supplier (matched by Tax ID, then by name; the import fails with "Supplier not found" if neither matches, so create the supplier first), the lines and the VAT, and the incoming record moves to *Submitted*. The **Import Complete** dialog links to the new drafts. Review each draft, especially the expense accounts and tax template, before submitting it.
 
@@ -149,7 +149,7 @@ To turn them into Purchase Invoices: open **Purchase Invoice → New**, *Get Ite
 
 ## 4. Dashboard and reports
 
-**E-Invoice** workspace (under ERPNext Settings) gives the entry points.
+**E-Invoice** workspace (under thinkNXG ERP Settings) gives the entry points.
 
 **E-Invoice Dashboard** (*Detailed Dashboard* shortcut) shows, for Sales and Purchase separately, the counts of *Reported From FTA*, *Success From ASP*, *Failed*, *Not Submitted* and *Cancelled* invoices, a Reported-vs-Failed chart, and the last 20 invoices of each type with their statuses.
 
@@ -164,7 +164,7 @@ To turn them into Purchase Invoices: open **Purchase Invoice → New**, *Get Ite
 | E-Invoice Success Log | One row per accepted submission: document ID, invoice, statuses, raw response |
 | E-Invoice Webhook Log | One row per webhook delivery: event, document ID, status, raw body |
 | E-Invoice Incoming Invoice | Supplier invoices received through the FTA channel, with the original JSON and import status |
-| Error Log (Frappe) | Every failed call, with the full traceback. Titles start with *E-Invoice …* or the ASP name |
+| Error Log (thinkNXG) | Every failed call, with the full traceback. Titles start with *E-Invoice …* or the ASP name |
 
 For support, send the invoice name, its *Submit Response* or *Document Status Response*, and the matching Error Log entry.
 
@@ -175,7 +175,7 @@ For support, send the invoice name, its *Submit Response* or *Document Status Re
 | Message | Cause | Fix |
 | --- | --- | --- |
 | Select an E-Invoice Provider on {company} before submitting e-invoices | Company has e-invoicing enabled but no provider | Company → Accredited Service Providers |
-| No adapter is registered for provider '…' | A provider name without an integration was chosen | Choose Flick, Marmin or Suntech, or ask ERPGulf about the provider you need |
+| No adapter is registered for provider '…' | A provider name without an integration was chosen | Choose Flick, Marmin or Suntech, or ask thinkNXG about the provider you need |
 | No enabled E-Invoice Provider Settings found for {provider} under {company} | No settings row, or it is not Enabled, or Provider differs from Company | Create / enable the row; provider names must match exactly |
 | 401 with an empty body on Verify Token | Credentials wrong or with trailing spaces | Re-paste Client ID and secret |
 | Address {0} has no recognised Country / needs a recognised UAE emirate | Party or company address incomplete | Fill Country and Emirate on the Address |

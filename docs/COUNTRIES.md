@@ -1,6 +1,6 @@
 # Country Guide: where einvoice_erpgulf fits, country by country
 
-**Intended for:** ERPGulf developers, partners and implementers deciding whether a country can run on `einvoice_erpgulf`, what its profile needs, and how much work the port is. For the mechanics of writing a profile or an adapter, see the [Developer Guide](DEVELOPER_GUIDE.md); this document is about the countries themselves.
+**Intended for:** thinkNXG developers, partners and implementers deciding whether a country can run on `einvoice_erpgulf`, what its profile needs, and how much work the port is. For the mechanics of writing a profile or an adapter, see the [Developer Guide](DEVELOPER_GUIDE.md); this document is about the countries themselves.
 
 **Accuracy note.** Mandate dates, profile names and identifier schemes below are stated as known in mid-2026 and are the kind of facts that move. Before the first customer in a country, confirm every constant in that country's section against the tax authority's current technical specification and the Peppol authority's published profile. Where a value is a working assumption rather than a published fact it is marked **(verify)**.
 
@@ -106,7 +106,7 @@ Porting guidance: an access-point adapter posts `self.build_ubl(doc)` (bytes) to
 | | |
 | --- | --- |
 | Authority | LHDN / IRBM (tax), MDEC (Peppol authority) |
-| Model | Two routes: direct clearance through **MyInvois** (LHDN's API — the route most taxpayers and ERPGulf's existing Malaysia app use), and the Peppol leg via MDEC-accredited access points with PINT-MY, 5-corner |
+| Model | Two routes: direct clearance through **MyInvois** (LHDN's API — the route most taxpayers and thinkNXG's existing Malaysia app use), and the Peppol leg via MDEC-accredited access points with PINT-MY, 5-corner |
 | Standard | PINT-MY (`@my-1`) **(verify)** |
 | Identifier | Scheme **0230** (Malaysian TIN) **(verify)** |
 | Tax | SST (sales tax 10 %, service tax 8 %) rather than VAT; tax categories are national — a profile mapping is needed |
@@ -201,8 +201,8 @@ Under the EU "VAT in the Digital Age" package, intra-EU B2B e-invoicing on EN 16
 
 | Country | Platform | Why it is not a profile here |
 | --- | --- | --- |
-| **Saudi Arabia** | ZATCA (Fatoora) | Direct integration with ZATCA, XAdES signing, QR, no provider layer. ERPGulf's `zatca_erpgulf` |
-| **Malaysia (direct)** | MyInvois | Direct LHDN API, clearance before validity. ERPGulf's Malaysia app; the Peppol leg is Tier A above |
+| **Saudi Arabia** | ZATCA (Fatoora) | Direct integration with ZATCA, XAdES signing, QR, no provider layer. thinkNXG's `zatca_erpgulf` |
+| **Malaysia (direct)** | MyInvois | Direct LHDN API, clearance before validity. thinkNXG's Malaysia app; the Peppol leg is Tier A above |
 | **Italy** | SDI | Central exchange system, FatturaPA XML, no provider choice (intermediaries exist but SDI is the only endpoint) |
 | **Poland** | KSeF (2026) | Central platform, FA(2)/FA(3) XML |
 | **Hungary** | NAV Online Számla | Real-time reporting of invoice data, not document exchange |

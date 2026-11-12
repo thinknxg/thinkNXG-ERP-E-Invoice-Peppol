@@ -1,4 +1,4 @@
-# Copyright (c) 2026, erpgulf.com and Contributors
+# Copyright (c) 2026, thinknxg.com and Contributors
 # See license.txt
 
 # import frappe

@@ -1,6 +1,6 @@
-# E-Invoicing for ERPNext (einvoice_erpgulf)
+# E-Invoicing for thinkNXG ERP (einvoice_erpgulf)
 
-A Frappe / ERPNext open source app for every country where e-invoices go out through a **provider the taxpayer chooses** — a Peppol access point, an accredited service provider, a certified platform. It submits Sales and Purchase Invoices through that provider, tracks their status with the tax authority, stores the returned XML and PDF against the invoice, receives webhooks, and imports incoming supplier invoices.
+A thinkNXG / thinkNXG ERP open source app for every country where e-invoices go out through a **provider the taxpayer chooses** — a Peppol access point, an accredited service provider, a certified platform. It submits Sales and Purchase Invoices through that provider, tracks their status with the tax authority, stores the returned XML and PDF against the invoice, receives webhooks, and imports incoming supplier invoices.
 
 One app, one folder per country, one folder per provider under it. The common code never names a country or a provider: the Company's **Country** selects the country profile (the rulebook: identifier scheme, tax categories, region codes, decimals, customization IDs), the Company's **E-Invoice Provider** selects the adapter. Adding a country is one `profile.py`; adding a provider is one `adapter.py` plus one line in `hooks.py`.
 
@@ -9,9 +9,9 @@ One app, one folder per country, one folder per provider under it. The common co
 | Countries shipped | **United Arab Emirates** (PINT-AE, FTA, accredited ASPs) — in production. **Oman** (PINT-OM, Oman Tax Authority) — profile ready, four constants to confirm against the OTA specification. **Belgium** (Peppol BIS 3.0 / EN 16931, mandatory B2B since 2026) — access point **A-Cube**, tested on the A-Cube sandbox. Any other PINT or EN 16931 country is a profile away; the [Country Guide](docs/COUNTRIES.md) covers each one. |
 | Providers | Provider-agnostic. Each is one folder under `countries/<cc>/providers/`; the live list is `einvoice_providers` in `hooks.py`. Pull requests for new providers and countries are welcome. |
 | Documents | Sales Invoice (invoice, credit note), Purchase Invoice (self-billed invoice and credit note), incoming supplier invoices |
-| Frappe / ERPNext | Version 15 and 16 · also available on Frappe Cloud |
+| thinkNXG / thinkNXG ERP | Version 15 and 16 · also available on thinkNXG Cloud |
 | Licence | MIT (see `license.txt`) — 100 % open source |
-| Maintainer | [ERPGulf](https://www.erpgulf.com) · support@erpgulf.com |
+| Maintainer | [thinkNXG](https://thinknxg.com) · support@thinknxg.com |
 
 Successor of `uae_erpgulf`. Existing sites move over with one command — see [Migrating from uae_erpgulf](#migrating-from-uae_erpgulf).
 
@@ -21,7 +21,7 @@ Successor of `uae_erpgulf`. Existing sites move over with one command — see [M
 | --- | --- | --- |
 | [End User Guide](docs/USER_GUIDE.md) | Accountants and admins | Setting up Company, Provider Settings and master data; submitting invoices; statuses and the ribbon; credit notes; purchase invoices; importing incoming invoices; dashboard, reports, logs; error messages |
 | [Testing Guide](docs/TESTING_GUIDE.md) | Implementers and QA | Step-by-step UI test script (written on a UAE company) with expected results for every screen and button; acceptance checklists for a newly added provider (section 9) and a newly added country (section 10); result sheet |
-| [Developer Guide](docs/DEVELOPER_GUIDE.md) | ERPGulf developers and partners | Architecture, the adapter contract, country profiles and standards, how to add a provider, how to add a country, webhooks and status sync, rules and gotchas |
+| [Developer Guide](docs/DEVELOPER_GUIDE.md) | thinkNXG developers and partners | Architecture, the adapter contract, country profiles and standards, how to add a provider, how to add a country, webhooks and status sync, rules and gotchas |
 | [Country Guide](docs/COUNTRIES.md) | Developers, partners, implementers | Which countries fit the app and how big each port is: full fact sheets for the UAE, Oman and Belgium; candidates on the same model (Singapore, Malaysia, Bahrain) and on Peppol with a profile (Australia/NZ, Japan, Netherlands, Nordics, Germany, France); the clearance-platform countries that stay separate apps; a ten-question checklist that yields a complete country profile |
 
 ## How it works
@@ -52,7 +52,7 @@ Both are code, registered in `hooks.py`; nothing is added through the UI. The UI
 
 ### Where the country is set
 
-The app has no country field of its own. It reads the standard ERPNext field **Company → Country**: that choice selects the country profile (`einvoice_countries` in `hooks.py` → `countries/<cc>/profile.py`), and the profile decides which providers may be chosen, which fields appear, how identifiers and tax categories are coded, and what the ribbon and messages call the tax authority. One site can hold companies in different countries; each Company follows its own country.
+The app has no country field of its own. It reads the standard thinkNXG ERP field **Company → Country**: that choice selects the country profile (`einvoice_countries` in `hooks.py` → `countries/<cc>/profile.py`), and the profile decides which providers may be chosen, which fields appear, how identifiers and tax categories are coded, and what the ribbon and messages call the tax authority. One site can hold companies in different countries; each Company follows its own country.
 
 ### Adding a provider (ASP / access point) to an existing country
 
@@ -92,7 +92,7 @@ The app has no country field of its own. It reads the standard ERPNext field **C
 
 ```bash
 cd frappe-bench
-bench get-app https://github.com/ERPGulf/einvoice_erpgulf.git
+bench get-app https://github.com/thinknxg/thinkNXG-ERP-E-Invoice-Peppol.git
 bench --site <site> install-app einvoice_erpgulf
 bench build --app einvoice_erpgulf
 ```
@@ -105,7 +105,7 @@ bench --site <site> migrate
 
 Updating later: `cd apps/einvoice_erpgulf && git pull`, then `bench --site <site> migrate`, `bench build --app einvoice_erpgulf`, `bench --site <site> clear-cache` and restart the workers.
 
-No Python packages beyond what Frappe already ships (`requests`, `PyJWT`, `lxml`). The site must be reachable from the internet on HTTPS for webhooks, and the scheduler must be enabled.
+No Python packages beyond what thinkNXG already ships (`requests`, `PyJWT`, `lxml`). The site must be reachable from the internet on HTTPS for webhooks, and the scheduler must be enabled.
 
 ## Migrating from uae_erpgulf
 
@@ -113,7 +113,7 @@ Once, on each site that has `uae_erpgulf` installed. Data (settings, invoice fie
 
 ```bash
 cd frappe-bench
-bench get-app https://github.com/ERPGulf/einvoice_erpgulf.git
+bench get-app https://github.com/thinknxg/thinkNXG-ERP-E-Invoice-Peppol.git
 bench --site <site> set-maintenance-mode on
 bench --site <site> execute einvoice_erpgulf.migrate_from_uae_erpgulf.run
 bench --site <site> uninstall-app uae_erpgulf --no-backup --force
@@ -123,7 +123,7 @@ bench --site <site> set-maintenance-mode off
 sudo supervisorctl restart <bench-group>:*
 ```
 
-Take a backup first and try it on a copy of the site. On Frappe Cloud the same steps run from the bench console. What is renamed: `UAE Incoming Invoices → E-Invoice Incoming Invoice`, `UAE E-Invoice Webhook Logs → E-Invoice Webhook Log`, `UAE E-invoicing success log → E-Invoice Success Log`; fields `custom_uae_einvoice_enabled → custom_einvoice_enabled`, `custom_accredited_service_providers → custom_einvoice_provider`, `custom_uae_einvoice_status → custom_einvoice_status`, `custom_uae_einvoice_status_notification → custom_einvoice_status_notification`, `custom_return_against_for_uae_einvoice → custom_return_against_for_einvoice`, `custom_submit_to_fta → custom_submit_to_authority`. Reports, print formats or scripts of your own that mention the old names need the same find-and-replace.
+Take a backup first and try it on a copy of the site. On thinkNXG Cloud the same steps run from the bench console. What is renamed: `UAE Incoming Invoices → E-Invoice Incoming Invoice`, `UAE E-Invoice Webhook Logs → E-Invoice Webhook Log`, `UAE E-invoicing success log → E-Invoice Success Log`; fields `custom_uae_einvoice_enabled → custom_einvoice_enabled`, `custom_accredited_service_providers → custom_einvoice_provider`, `custom_uae_einvoice_status → custom_einvoice_status`, `custom_uae_einvoice_status_notification → custom_einvoice_status_notification`, `custom_return_against_for_uae_einvoice → custom_return_against_for_einvoice`, `custom_submit_to_fta → custom_submit_to_authority`. Reports, print formats or scripts of your own that mention the old names need the same find-and-replace.
 
 ## Quick start (five minutes to a first submission)
 
@@ -147,14 +147,14 @@ einvoice_erpgulf/einvoice_erpgulf/
 │   │   ├── __init__.py            # BaseProfile (the country-profile contract)
 │   │   ├── pint/                  # Peppol PINT defaults
 │   │   ├── en16931/               # Peppol BIS 3.0 / EN 16931 defaults
-│   │   └── ubl/builder.py         # UBL 2.1 Invoice / CreditNote from an ERPNext invoice
+│   │   └── ubl/builder.py         # UBL 2.1 Invoice / CreditNote from an thinkNXG ERP invoice
 │   ├── submit_sales.py  send_purchase.py  status_sync.py  attach.py  webhook.py
 │   ├── incoming.py  verify_token.py  validation.py  provider_settings.py  return_validation.py
 ├── countries/
 │   ├── ae/  profile.py  fixtures/  providers/flick  marmin  suntech  acube  (fynamics)
 │   ├── om/  profile.py  fixtures/  providers/
 │   └── be/  profile.py  fixtures/  providers/acube
-├── e_invoice/                     # the Frappe module: doctypes, dashboard page, reports, workspace
+├── e_invoice/                     # the thinkNXG module: doctypes, dashboard page, reports, workspace
 ├── fixtures/custom_field.json     # shared custom fields
 ├── public/js/                     # form scripts: buttons, ribbon, tooltips, bulk submit
 └── migrate_from_uae_erpgulf.py    # one-off site migration
@@ -171,7 +171,7 @@ Both need the scheduler enabled on the site (`bench --site <site> scheduler enab
 
 ## Webhooks
 
-Each provider has its own listener inside its adapter file, registered as a guest-accessible endpoint, for example `/api/method/einvoice_erpgulf.countries.ae.providers.suntech.adapter.suntech_webhook_listener`. The Provider Settings form shows the URL to give the provider. Every delivery is logged in **E-Invoice Webhook Log**; missed webhooks are covered by the 5-minute scheduler. Never ask a provider to send `Authorization: Bearer` to a webhook — Frappe intercepts it; use a custom header.A-Cube UAE does this: it sends a shared token in the `X-Acube-Token` header, which the listener checks. A-Cube Belgium signs deliveries with an HTTP Signature, which is not verified yet; until it is, its listener only updates invoices that already carry the document ID and re-reads incoming documents from the A-Cube API.
+Each provider has its own listener inside its adapter file, registered as a guest-accessible endpoint, for example `/api/method/einvoice_erpgulf.countries.ae.providers.suntech.adapter.suntech_webhook_listener`. The Provider Settings form shows the URL to give the provider. Every delivery is logged in **E-Invoice Webhook Log**; missed webhooks are covered by the 5-minute scheduler. Never ask a provider to send `Authorization: Bearer` to a webhook — thinkNXG intercepts it; use a custom header.A-Cube UAE does this: it sends a shared token in the `X-Acube-Token` header, which the listener checks. A-Cube Belgium signs deliveries with an HTTP Signature, which is not verified yet; until it is, its listener only updates invoices that already carry the document ID and re-reads incoming documents from the A-Cube API.
 
 ## Development
 
@@ -181,8 +181,8 @@ pre-commit install          # ruff + ruff-format + prettier, as configured in .p
 pre-commit run --all-files
 ```
 
-Adding a provider is one new folder under `countries/<cc>/providers/` plus one line in `hooks.py`; adding a country is one `profile.py` plus one line. The [Developer Guide](docs/DEVELOPER_GUIDE.md) walks through both with a skeleton, and the [Testing Guide](docs/TESTING_GUIDE.md) section 9 is the acceptance checklist. Open a pull request on [GitHub](https://github.com/ERPGulf/einvoice_erpgulf); we review and merge adapters that pass that checklist on the provider's sandbox. Security reports to support@erpgulf.com, please not as public issues.
+Adding a provider is one new folder under `countries/<cc>/providers/` plus one line in `hooks.py`; adding a country is one `profile.py` plus one line. The [Developer Guide](docs/DEVELOPER_GUIDE.md) walks through both with a skeleton, and the [Testing Guide](docs/TESTING_GUIDE.md) section 9 is the acceptance checklist. Open a pull request on [GitHub](https://github.com/thinknxg/thinkNXG-ERP-E-Invoice-Peppol); we review and merge adapters that pass that checklist on the provider's sandbox. Security reports to support@thinknxg.com, please not as public issues.
 
-## Other ERPGulf e-invoicing apps
+## Other thinkNXG e-invoicing apps
 
-Clearance-model countries with a single government endpoint and no provider to choose are separate apps: [ZATCA (Saudi Arabia)](https://github.com/ERPGulf/zatca_erpgulf) · Malaysia (MyInvois) · more at [www.erpgulf.com](https://www.erpgulf.com)
+Clearance-model countries with a single government endpoint and no provider to choose are separate apps: ZATCA (Saudi Arabia) · Malaysia (MyInvois) · more at [thinknxg.com](https://thinknxg.com)

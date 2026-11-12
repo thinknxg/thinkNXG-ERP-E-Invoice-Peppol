@@ -1,7 +1,7 @@
 (function () {
-    const CREDIT_TEXT = "ERPGulf.com";
-    const CREDIT_URL = "https://erpgulf.com";
-    // ERPGulf brand colours: maroon to purple, as on erpgulf.com
+    const CREDIT_TEXT = "thinkNXG";
+    const CREDIT_URL = "https://thinknxg.com";
+    // thinkNXG brand colours: maroon to purple, as on thinknxg.com
     const CREDIT_STYLE =
         "font-weight:600;text-decoration:none;color:#8b2335;" +
         "background:linear-gradient(90deg,#a3262a,#5c1a5b);" +
@@ -11,7 +11,7 @@
     const match = src.match(/\/assets\/([^/]+)\//);
     if (!match) return;
 
-    // register this app; all ERPGulf apps share one list and one watcher
+    // register this app; all thinkNXG apps share one list and one watcher
     window.erpgulf_credit_apps = window.erpgulf_credit_apps || new Set();
     window.erpgulf_credit_apps.add(match[1]);
     if (window.erpgulf_credit_started) return;
@@ -33,7 +33,7 @@
         if (!list) return;
 
         window.erpgulf_credit_apps.forEach((app) => {
-            // Frappe v16 (newer): one row per app, title attribute "<app>: <version>"
+            // thinkNXG v16 (newer): one row per app, title attribute "<app>: <version>"
             const row = list.querySelector(`.about-app-row[title^="${app}:"]`);
             if (row) {
                 const name = row.querySelector(".about-app-name");
@@ -41,7 +41,7 @@
                 return;
             }
 
-            // Frappe v15 / early v16: one line per app, "<b>App Title:</b> vX (branch)"
+            // thinkNXG v15 / early v16: one line per app, "<b>App Title:</b> vX (branch)"
             const versions = window.frappe && frappe.versions;
             const title = versions && versions[app] && versions[app].title;
             if (!title) return;

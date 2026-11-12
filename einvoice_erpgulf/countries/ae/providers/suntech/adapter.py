@@ -742,7 +742,7 @@ class SuntechAdapter(BaseAdapter):
 def _attach_documents_if_ready(doctype, invoice_name, body):
     """Once Suntech has produced the signed XML / PDF (their S3 paths are on
     the invoice detail - the PDF only once the invoice is Completed), attach
-    whichever one the ERPNext invoice doesn't have yet. Failures are logged,
+    whichever one the thinkNXG ERP invoice doesn't have yet. Failures are logged,
     never raised, so a status check or webhook is never interrupted."""
     if not isinstance(body, dict) or not invoice_name:
         return
@@ -802,7 +802,7 @@ def suntech_webhook_listener():
         frappe.local.response["http_status_code"] = 400
         return {"received": False, "error": "invalid JSON"}
 
-    # The JWT must NOT come in the Authorization header: Frappe treats any
+    # The JWT must NOT come in the Authorization header: thinkNXG treats any
     # "Authorization: Bearer ..." as its own login token and rejects the
     # request with 401 before this function runs. In the Suntech portal set
     # the auth header name to SUNTECH_WEBHOOK_HEADER and leave the scheme empty.

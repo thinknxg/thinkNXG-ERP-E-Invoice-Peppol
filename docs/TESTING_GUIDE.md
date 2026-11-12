@@ -1,6 +1,6 @@
-# E-Invoicing for ERPNext — UI Testing Guide
+# E-Invoicing for thinkNXG ERP — UI Testing Guide
 
-A step-by-step test script for implementers, QA and partners. Every test is done through the ERPNext UI (no console), with the data to enter and the result to expect. Run the whole script once per provider you go live with, on the provider's **sandbox**, and again after every app update. Section 9 covers testing a provider you have just added, section 10 a country you have just added.
+A step-by-step test script for implementers, QA and partners. Every test is done through the thinkNXG ERP UI (no console), with the data to enter and the result to expect. Run the whole script once per provider you go live with, on the provider's **sandbox**, and again after every app update. Section 9 covers testing a provider you have just added, section 10 a country you have just added.
 
 The script is written for a Company whose Country is the **United Arab Emirates** (labels *Accredited Service Provider*, *Emirate*, ribbon *FTA Reported*). For a Company in another country the screens and steps are the same; read the labels as that country's (section 10 lists what differs).
 
@@ -40,13 +40,13 @@ Test data used below (adjust to what your ASP sandbox accepts):
 | 1.14 | Subscribe Webhook (Flick) | *E-Invoicing → Subscribe Webhook* | *Webhook Subscribed* dialog; *Webhook UUID* filled; *Get Subscription* shows the listener URL |
 | 1.15 | Webhook buttons (Marmin, Suntech) | *E-Invoicing → Subscribe Webhook* | "Webhook subscription is not supported by …" message, no error trace |
 | 1.16 | Webhook configured in portal (Marmin, Suntech) | Paste *Webhook URL* and secret into the ASP portal; use the portal's "send test" if offered | A row appears in *E-Invoice Webhook Log* |
-| 1.17 | Webhook reachable from outside | From a phone on mobile data, open the *Webhook URL* in a browser | A Frappe JSON response (an error about method/POST is fine); not a timeout |
+| 1.17 | Webhook reachable from outside | From a phone on mobile data, open the *Webhook URL* in a browser | A thinkNXG JSON response (an error about method/POST is fine); not a timeout |
 
 ## 2. Master data validation
 
 | # | Test | Steps | Expected |
 | --- | --- | --- | --- |
-| 2.1 | Address without country | Customer address with *Country* empty; submit a Sales Invoice for that customer | "Address … has no recognised Country." Invoice stays submitted in ERPNext with status *Not Submitted*; fix the address and use *Send Invoice* |
+| 2.1 | Address without country | Customer address with *Country* empty; submit a Sales Invoice for that customer | "Address … has no recognised Country." Invoice stays submitted in thinkNXG ERP with status *Not Submitted*; fix the address and use *Send Invoice* |
 | 2.2 | UAE address without emirate | *Country* = United Arab Emirates, *Emirate* empty | "Address … needs a recognised UAE emirate (Abu Dhabi, Dubai, …)" |
 | 2.3 | Foreign address | *Country* = India, *Emirate* empty, *State* = Kerala | Submission goes through; subdivision = Kerala |
 | 2.4 | Missing Peppol ID (Marmin) | Customer with *Peppol ID* empty | "Customer … has no PEPPOL ID (Participant ID) set" |
@@ -74,9 +74,9 @@ Test data used below (adjust to what your ASP sandbox accepts):
 | 3.14 | Transaction type | *Invoice Transaction Type Code* = `XXXXXXX1 : Export transaction`, foreign customer | Accepted; export flag set |
 | 3.15 | Summary invoice | *Frequency Billing Code List* = MTH | Accepted with invoice period |
 | 3.16 | Foreign currency | Invoice in USD with exchange rate | Accepted; totals and AED tax amount present (check XML) |
-| 3.17 | Line discount | 10% *Discount %* on an item row | Accepted; the line goes out at the discounted rate; totals in the ASP portal equal ERPNext's grand total |
-| 3.17b | Invoice-level discount | *Additional Discount* 10% on the invoice | Suntech, Flick: accepted, totals match ERPNext. Marmin: known gap, the discount is not transmitted; record as N/A until fixed |
-| 3.18 | Multiple tax rows | Add a non-VAT charge row (e.g. shipping, Actual) | Accepted; VAT amount equals ERPNext's VAT, not the sum of all charges |
+| 3.17 | Line discount | 10% *Discount %* on an item row | Accepted; the line goes out at the discounted rate; totals in the ASP portal equal thinkNXG ERP's grand total |
+| 3.17b | Invoice-level discount | *Additional Discount* 10% on the invoice | Suntech, Flick: accepted, totals match thinkNXG ERP. Marmin: known gap, the discount is not transmitted; record as N/A until fixed |
+| 3.18 | Multiple tax rows | Add a non-VAT charge row (e.g. shipping, Actual) | Accepted; VAT amount equals thinkNXG ERP's VAT, not the sum of all charges |
 | 3.19 | Resend after failure | Force a failure (2.1), fix the address, *UAE E-Invoice → Send Invoice* | Success; status fields update; a new success log row |
 | 3.20 | Cancel is blocked | Cancel a reported (or pending / Success) invoice | Refused: "This invoice has already been sent for UAE e-invoicing … cannot be cancelled. Create a Credit Note (Return) against it instead." Amend is blocked the same way |
 | 3.21 | Cancel allowed when never sent | Cancel an invoice whose Reporting Status is failed or rejected, or that was never submitted | Cancels normally; dashboard *Cancelled* count +1 |
@@ -88,7 +88,7 @@ Test data used below (adjust to what your ASP sandbox accepts):
 | 4.1 | Return from invoice | On a reported invoice: *Create → Return / Credit Note*; *Credit Note Reason Code* = DL8.61.1.B-Amendment → Submit | Accepted as type 381 with billing reference to the original; positive amounts in the ASP portal |
 | 4.2 | Reason code required | Return without a reason code | Clear message from the app or ASP, no traceback |
 | 4.3 | Partial return | Return 1 of 2 laptops | Accepted; amounts half of the original |
-| 4.4 | Credit note without original | Company: tick *Allow credit-note without original invoice in the system*. New Sales Invoice, *Is Return*, *Return Against For UAE E-invoice* = `INV-OLD-001`, *Skip Validation for Credit Note* ticked, negative qty | ERPNext accepts the return (no "returned items" validation error); ASP accepts with the external reference |
+| 4.4 | Credit note without original | Company: tick *Allow credit-note without original invoice in the system*. New Sales Invoice, *Is Return*, *Return Against For UAE E-invoice* = `INV-OLD-001`, *Skip Validation for Credit Note* ticked, negative qty | thinkNXG ERP accepts the return (no "returned items" validation error); ASP accepts with the external reference |
 
 ## 5. Bulk submission
 
@@ -110,7 +110,7 @@ Test data used below (adjust to what your ASP sandbox accepts):
 | 6.5 | Import dialog, none | Purchase Invoice → New → *Get Items From → Get FTA Incoming Invoices* when there are no *Not Submitted* rows | "No FTA Incoming Invoices with status "Not Submitted" found." |
 | 6.6 | Import, nothing ticked | Same with rows present; click *Import Selected* without ticking | "Please select at least one invoice." |
 | 6.7 | Import one | Tick one row → *Import Selected* | *Import Complete* dialog with a link; the new draft Purchase Invoice opens with supplier, lines, VAT; incoming row status = Submitted |
-| 6.8 | Import, unknown supplier | Incoming invoice from a supplier not in ERPNext | Listed under *Failed* with "Supplier not found: …"; create the supplier (Tax ID = the VAT number) and import again |
+| 6.8 | Import, unknown supplier | Incoming invoice from a supplier not in thinkNXG ERP | Listed under *Failed* with "Supplier not found: …"; create the supplier (Tax ID = the VAT number) and import again |
 | 6.9 | Match & Approve | On the imported draft: *Match & Approve* | Green headline "✅ Matched & Approved by FTA — Document ID: …" |
 | 6.10 | Match & Approve, no ID | On a manual Purchase Invoice without Document ID | "This Purchase Invoice has no FTA Document ID to match against." |
 
@@ -130,7 +130,7 @@ Test data used below (adjust to what your ASP sandbox accepts):
 
 | # | Test | Steps | Expected |
 | --- | --- | --- | --- |
-| 8.1 | ASP unreachable | Set *Base URL Override* to `https://10.255.255.1` (non-routable), submit an invoice | Submit completes in ERPNext after the timeout; "E-Invoice processing failed: …"; status *Not Submitted*; Error Log entry *E-Invoice Submit Error*. Clear the override |
+| 8.1 | ASP unreachable | Set *Base URL Override* to `https://10.255.255.1` (non-routable), submit an invoice | Submit completes in thinkNXG ERP after the timeout; "E-Invoice processing failed: …"; status *Not Submitted*; Error Log entry *E-Invoice Submit Error*. Clear the override |
 | 8.2 | Wrong credentials mid-flight | Break the secret, submit | ASP 401 in *E-Invoice Response*; status *Not Submitted*; *Send Invoice* available after fixing |
 | 8.3 | Disabled row | Untick *Enabled* on the settings row, submit | Blocked: "No enabled E-Invoice Provider Settings found…" |
 | 8.4 | Provider switch | Change Company to another ASP that has its own enabled settings row; submit | Goes to the new ASP (check *Submit Response* for its format); old invoices keep their statuses |
@@ -175,7 +175,7 @@ Run this after a developer has added `countries/<cc>/profile.py`, its `fixtures/
 | 10.10 | National document rule | Trigger the profile's `validate_document` (Belgium: no PO No and no Buyer Reference) → submit | Blocked with the profile's message |
 | 10.11 | Ribbon wording | After submit and after status | Ribbon reads *Sent to <provider_short>* then *<authority_short> Reported* (FTA / OTA / FPS Finance), never a UAE label on a non-UAE Company |
 | 10.12 | Final statuses | Provider reports "delivered" (4-corner country) | Scheduler stops polling the invoice; ribbon shows a final state |
-| 10.13 | UBL route (if the provider takes XML) | Submit | The attached document is a UBL `Invoice` / `CreditNote` with the country's CustomizationID and ProfileID; totals consistent with the ERPNext invoice; a credit note carries `BillingReference` |
+| 10.13 | UBL route (if the provider takes XML) | Submit | The attached document is a UBL `Invoice` / `CreditNote` with the country's CustomizationID and ProfileID; totals consistent with the thinkNXG ERP invoice; a credit note carries `BillingReference` |
 | 10.14 | Regression on the UAE Company | Repeat 3.2 and 3.5 on the UAE Company of the same site | Unchanged: UAE labels, UAE fields, FTA ribbon |
 
 ## 11. Result sheet

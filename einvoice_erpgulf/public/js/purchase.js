@@ -225,7 +225,7 @@ function get_fta_incoming_invoices(frm) {
 function show_fta_invoices_dialog(frm, invoices) {
     console.log("Invoices received:", invoices);
 
-    // Build simple HTML table instead of Frappe grid
+    // Build simple HTML table instead of thinkNXG grid
     let table_rows = '';
     invoices.forEach((inv, idx) => {
         table_rows += `

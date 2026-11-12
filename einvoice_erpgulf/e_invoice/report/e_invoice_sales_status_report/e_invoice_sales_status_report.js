@@ -1,4 +1,4 @@
-// Copyright (c) 2026, erpgulf.com and contributors
+// Copyright (c) 2026, thinknxg.com and contributors
 // For license information, please see license.txt
 
 frappe.query_reports["E-Invoice Sales Status Report"] = {

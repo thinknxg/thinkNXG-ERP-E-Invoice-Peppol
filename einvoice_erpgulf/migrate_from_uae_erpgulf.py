@@ -3,7 +3,7 @@
 Run it ONCE, while uae_erpgulf is still installed and BEFORE installing
 einvoice_erpgulf. Order on the bench:
 
-    bench get-app https://github.com/ERPGulf/einvoice_erpgulf.git
+    bench get-app https://github.com/thinknxg/thinkNXG-ERP-E-Invoice-Peppol.git
     bench --site <site> set-maintenance-mode on
     bench --site <site> execute einvoice_erpgulf.migrate_from_uae_erpgulf.run
     bench --site <site> uninstall-app uae_erpgulf --no-backup --force

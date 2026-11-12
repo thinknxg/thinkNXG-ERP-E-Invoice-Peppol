@@ -16,7 +16,7 @@ def validate_company_provider(doc, method=None):
 
 def block_cancel_if_reported(doc, method=None):
     """before_cancel on Sales / Purchase Invoice: an invoice that reached the
-    tax authority (or is on its way) cannot be cancelled in ERPNext; the only valid
+    tax authority (or is on its way) cannot be cancelled in thinkNXG ERP; the only valid
     reversal is a credit / debit note that is itself reported."""
     reporting = (doc.get("custom_reporting_status") or "").strip().lower()
     einvoice = (doc.get("custom_einvoice_status") or "").strip().lower()

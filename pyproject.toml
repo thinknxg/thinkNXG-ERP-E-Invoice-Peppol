@@ -1,9 +1,9 @@
 [project]
 name = "einvoice_erpgulf"
 authors = [
-    { name = "erpgulf.com", email = "support@erpgulf.com"}
+    { name = "thinknxg.com", email = "support@thinknxg.com"}
 ]
-description = "Peppol / provider-based e-invoicing for ERPNext by ERPGulf.com"
+description = "Peppol / provider-based e-invoicing for thinkNXG ERP by thinkNXG"
 requires-python = ">=3.10"
 readme = "README.md"
 dynamic = ["version"]

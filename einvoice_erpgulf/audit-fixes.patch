@@ -10,7 +10,7 @@ index 0000000..c6245a6
 +
 +```bash
 +cd frappe-bench
-+bench get-app https://github.com/ERPGulf/einvoice_erpgulf.git
++bench get-app https://github.com/thinknxg/thinkNXG-ERP-E-Invoice-Peppol.git
 +bench --site <site> install-app einvoice_erpgulf
 +bench build --app einvoice_erpgulf
 +```
@@ -23,7 +23,7 @@ index 0000000..c6245a6
 +
 +Updating later: `cd apps/einvoice_erpgulf && git pull`, then `bench --site <site> migrate`, `bench build --app einvoice_erpgulf`, `bench --site <site> clear-cache` and restart the workers.
 +
-+No Python packages beyond what Frappe already ships (`requests`, `PyJWT`). The site must be reachable from the internet on HTTPS for webhooks, and the scheduler must be enabled.
++No Python packages beyond what thinkNXG already ships (`requests`, `PyJWT`). The site must be reachable from the internet on HTTPS for webhooks, and the scheduler must be enabled.
 +
 +## Migrating from uae_erpgulf
 +
@@ -31,7 +31,7 @@ index 0000000..c6245a6
 +
 +```bash
 +cd frappe-bench
-+bench get-app https://github.com/ERPGulf/einvoice_erpgulf.git
++bench get-app https://github.com/thinknxg/thinkNXG-ERP-E-Invoice-Peppol.git
 +bench --site <site> set-maintenance-mode on
 +bench --site <site> execute einvoice_erpgulf.migrate_from_uae_erpgulf.run
 +bench --site <site> uninstall-app uae_erpgulf --no-backup --force
@@ -41,7 +41,7 @@ index 0000000..c6245a6
 +sudo supervisorctl restart <bench-group>:*
 +```
 +
-+Take a backup first and try it on a copy of the site. On Frappe Cloud the same steps run from the bench console. What is renamed: `UAE Incoming Invoices → E-Invoice Incoming Invoice`, `UAE E-Invoice Webhook Logs → E-Invoice Webhook Log`, `UAE E-invoicing success log → E-Invoice Success Log`; fields `custom_uae_einvoice_enabled → custom_einvoice_enabled`, `custom_accredited_service_providers → custom_einvoice_provider`, `custom_uae_einvoice_status → custom_einvoice_status`, `custom_uae_einvoice_status_notification → custom_einvoice_status_notification`, `custom_return_against_for_uae_einvoice → custom_return_against_for_einvoice`, `custom_submit_to_fta → custom_submit_to_authority`. Reports, print formats or scripts of your own that mention the old names need the same find-and-replace.
++Take a backup first and try it on a copy of the site. On thinkNXG Cloud the same steps run from the bench console. What is renamed: `UAE Incoming Invoices → E-Invoice Incoming Invoice`, `UAE E-Invoice Webhook Logs → E-Invoice Webhook Log`, `UAE E-invoicing success log → E-Invoice Success Log`; fields `custom_uae_einvoice_enabled → custom_einvoice_enabled`, `custom_accredited_service_providers → custom_einvoice_provider`, `custom_uae_einvoice_status → custom_einvoice_status`, `custom_uae_einvoice_status_notification → custom_einvoice_status_notification`, `custom_return_against_for_uae_einvoice → custom_return_against_for_einvoice`, `custom_submit_to_fta → custom_submit_to_authority`. Reports, print formats or scripts of your own that mention the old names need the same find-and-replace.
 diff --git a/README.md b/README.md
 index a6ab475..9f184c4 100644
 --- a/README.md
@@ -55,13 +55,13 @@ index a6ab475..9f184c4 100644
  
  ### Where the country is set
  
-@@ -90,40 +90,7 @@ The app has no country field of its own. It reads the standard ERPNext field **C
+@@ -90,40 +90,7 @@ The app has no country field of its own. It reads the standard thinkNXG ERP field **C
  
  ## Installation
  
 -```bash
 -cd frappe-bench
--bench get-app https://github.com/ERPGulf/einvoice_erpgulf.git
+-bench get-app https://github.com/thinknxg/thinkNXG-ERP-E-Invoice-Peppol.git
 -bench --site <site> install-app einvoice_erpgulf
 -bench build --app einvoice_erpgulf
 -```
@@ -74,7 +74,7 @@ index a6ab475..9f184c4 100644
 -
 -Updating later: `cd apps/einvoice_erpgulf && git pull`, then `bench --site <site> migrate`, `bench build --app einvoice_erpgulf`, `bench --site <site> clear-cache` and restart the workers.
 -
--No Python packages beyond what Frappe already ships (`requests`, `PyJWT`). The site must be reachable from the internet on HTTPS for webhooks, and the scheduler must be enabled.
+-No Python packages beyond what thinkNXG already ships (`requests`, `PyJWT`). The site must be reachable from the internet on HTTPS for webhooks, and the scheduler must be enabled.
 -
 -## Migrating from uae_erpgulf
 -
@@ -82,7 +82,7 @@ index a6ab475..9f184c4 100644
 -
 -```bash
 -cd frappe-bench
--bench get-app https://github.com/ERPGulf/einvoice_erpgulf.git
+-bench get-app https://github.com/thinknxg/thinkNXG-ERP-E-Invoice-Peppol.git
 -bench --site <site> set-maintenance-mode on
 -bench --site <site> execute einvoice_erpgulf.migrate_from_uae_erpgulf.run
 -bench --site <site> uninstall-app uae_erpgulf --no-backup --force
@@ -92,8 +92,8 @@ index a6ab475..9f184c4 100644
 -sudo supervisorctl restart <bench-group>:*
 -```
 -
--Take a backup first and try it on a copy of the site. On Frappe Cloud the same steps run from the bench console. What is renamed: `UAE Incoming Invoices → E-Invoice Incoming Invoice`, `UAE E-Invoice Webhook Logs → E-Invoice Webhook Log`, `UAE E-invoicing success log → E-Invoice Success Log`; fields `custom_uae_einvoice_enabled → custom_einvoice_enabled`, `custom_accredited_service_providers → custom_einvoice_provider`, `custom_uae_einvoice_status → custom_einvoice_status`, `custom_uae_einvoice_status_notification → custom_einvoice_status_notification`, `custom_return_against_for_uae_einvoice → custom_return_against_for_einvoice`, `custom_submit_to_fta → custom_submit_to_authority`. Reports, print formats or scripts of your own that mention the old names need the same find-and-replace.
-+See [INSTALL.md](https://github.com/ERPGulf/einvoice_erpgulf/blob/main/INSTALL.md) for installing, updating and migrating from `uae_erpgulf`.
+-Take a backup first and try it on a copy of the site. On thinkNXG Cloud the same steps run from the bench console. What is renamed: `UAE Incoming Invoices → E-Invoice Incoming Invoice`, `UAE E-Invoice Webhook Logs → E-Invoice Webhook Log`, `UAE E-invoicing success log → E-Invoice Success Log`; fields `custom_uae_einvoice_enabled → custom_einvoice_enabled`, `custom_accredited_service_providers → custom_einvoice_provider`, `custom_uae_einvoice_status → custom_einvoice_status`, `custom_uae_einvoice_status_notification → custom_einvoice_status_notification`, `custom_return_against_for_uae_einvoice → custom_return_against_for_einvoice`, `custom_submit_to_fta → custom_submit_to_authority`. Reports, print formats or scripts of your own that mention the old names need the same find-and-replace.
++See [INSTALL.md](https://github.com/thinknxg/thinkNXG-ERP-E-Invoice-Peppol/blob/main/INSTALL.md) for installing, updating and migrating from `uae_erpgulf`.
  
  ## Quick start (five minutes to a first submission)
  

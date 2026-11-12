@@ -1,8 +1,8 @@
 # Developer Guide: countries and providers
 
-**Intended for:** ERPGulf developers and partner developers working on the `einvoice_erpgulf` app — adding a new ASP adapter, maintaining an existing one, or debugging webhook and status-sync issues. The same adapter pattern applies to any country with a provider-based e-invoicing model, such as Oman or the European countries using Peppol access points, so partners building for those markets can use this guide as the reference design. It assumes you are comfortable with Frappe/ERPNext development in Python, but it is written so that a developer new to e-invoicing can follow it; every point says where its effect can be seen on screen.
+**Intended for:** thinkNXG developers and partner developers working on the `einvoice_erpgulf` app — adding a new ASP adapter, maintaining an existing one, or debugging webhook and status-sync issues. The same adapter pattern applies to any country with a provider-based e-invoicing model, such as Oman or the European countries using Peppol access points, so partners building for those markets can use this guide as the reference design. It assumes you are comfortable with thinkNXG/thinkNXG ERP development in Python, but it is written so that a developer new to e-invoicing can follow it; every point says where its effect can be seen on screen.
 
-Source code: [github.com/ERPGulf/einvoice_erpgulf](https://github.com/ERPGulf/einvoice_erpgulf). This guide matches `einvoice_erpgulf` 4.0 (October 2026), the multi-country successor of `uae_erpgulf`. The UAE is used as the worked example throughout; section 12 covers adding a country. The [End User Guide](USER_GUIDE.md) describes what the accountant sees; the [Testing Guide](TESTING_GUIDE.md) has the UI test script, including section 9 for a newly added ASP. The current list of registered ASPs is `einvoice_providers` in `hooks.py`; the adapters named in this guide are used as examples only.
+Source code: [github.com/thinknxg/thinkNXG-ERP-E-Invoice-Peppol](https://github.com/thinknxg/thinkNXG-ERP-E-Invoice-Peppol). This guide matches `einvoice_erpgulf` 4.0 (October 2026), the multi-country successor of `uae_erpgulf`. The UAE is used as the worked example throughout; section 12 covers adding a country. The [End User Guide](USER_GUIDE.md) describes what the accountant sees; the [Testing Guide](TESTING_GUIDE.md) has the UI test script, including section 9 for a newly added ASP. The current list of registered ASPs is `einvoice_providers` in `hooks.py`; the adapters named in this guide are used as examples only.
 
 ## 1. The three files you will live in
 
@@ -84,7 +84,7 @@ It subclasses `BaseAdapter`, fills in the contract using the ASP's own API, and 
 
 ## 2. The idea in one sentence
 
-The UAE model is Peppol-based: every FTA-accredited ASP is an access point with its own API, auth and JSON, but ERPNext needs the same jobs from all of them. So the app isolates each ASP behind one adapter, and switching ASP is a dropdown.
+The UAE model is Peppol-based: every FTA-accredited ASP is an access point with its own API, auth and JSON, but thinkNXG ERP needs the same jobs from all of them. So the app isolates each ASP behind one adapter, and switching ASP is a dropdown.
 
 How a call travels:
 
@@ -111,7 +111,7 @@ einvoice_erpgulf/einvoice_erpgulf/
 │   │   ├── __init__.py           # BaseProfile — the country-profile contract
 │   │   ├── pint/profile.py       # PintProfile: Peppol PINT defaults (UAE, Oman, SG, MY, A-NZ, JP)
 │   │   ├── en16931/profile.py    # EN16931Profile: Peppol BIS 3.0 defaults (BE, NL, DE, Nordics)
-│   │   └── ubl/builder.py        # UBL 2.1 Invoice / CreditNote from an ERPNext invoice + a profile
+│   │   └── ubl/builder.py        # UBL 2.1 Invoice / CreditNote from an thinkNXG ERP invoice + a profile
 │   ├── provider_settings.py      # the active Provider Settings row for a company
 │   ├── submit_sales.py           # Sales Invoice on_submit hook, buttons, bulk submit
 │   ├── send_purchase.py          # the same for Purchase Invoice
@@ -133,12 +133,12 @@ einvoice_erpgulf/einvoice_erpgulf/
 │   ├── om/   profile.py, fixtures/, providers/      # Oman (PINT-OM)
 │   └── be/   profile.py, fixtures/, providers/      # Belgium (BIS 3.0)
 │
-├── e_invoice/                    # the Frappe module: doctypes, dashboard page, reports, workspace
+├── e_invoice/                    # the thinkNXG module: doctypes, dashboard page, reports, workspace
 ├── fixtures/custom_field.json    # shared custom fields (generic names: custom_einvoice_*)
 └── public/js/                    # form scripts: buttons, ribbon (einvoice_common.js), tooltips, bulk submit
 ```
 
-The rule has three parts. If the code mentions a provider's URL, field name or JSON key, it goes inside that provider's folder. If two providers of the same country would have to agree on it for the tax authority to accept both invoices (a code table, a rounding rule, how a tax number becomes a Peppol ID), it goes in that country's `profile.py` — or in `core/standards/` when every country on that standard shares it. If it works the same for every country and is about ERPNext rather than the invoice format (buttons, scheduler, attachments, logs), it stays in `core/`.
+The rule has three parts. If the code mentions a provider's URL, field name or JSON key, it goes inside that provider's folder. If two providers of the same country would have to agree on it for the tax authority to accept both invoices (a code table, a rounding rule, how a tax number becomes a Peppol ID), it goes in that country's `profile.py` — or in `core/standards/` when every country on that standard shares it. If it works the same for every country and is about thinkNXG ERP rather than the invoice format (buttons, scheduler, attachments, logs), it stays in `core/`.
 
 ## 3. A customer walks in with "ASP XYZ"
 
@@ -310,7 +310,7 @@ Create a Provider Settings row for the ASP (credentials, Base URL Override for s
 - Returns differ per ASP: a purchase return links to a Purchase Invoice, not a Sales Invoice; some ASPs use a separate endpoint or document type for debit and credit notes.
 - Don't break tested flows: when fixing one document type, change only that branch of the adapter.
 - No `_()` at module or class level (Semgrep: frappe-breaks-multitenancy). Wrap messages in a method.
-- Never use the `Authorization: Bearer` header for webhooks. Frappe intercepts it and returns 401 before your guest method runs; ask the ASP to send the token in a custom header (e.g. `X-TCA-Token`).
+- Never use the `Authorization: Bearer` header for webhooks. thinkNXG intercepts it and returns 401 before your guest method runs; ask the ASP to send the token in a custom header (e.g. `X-TCA-Token`).
 - The webhook URL must be reachable from the internet, not just the office. Test from mobile data.
 - TIN vs TRN: the Peppol endpoint (scheme 0235) uses the 10-digit TIN, the first 10 digits of the 15-digit TRN (`pint.tin_from_trn`).
 - Strip credentials: a trailing space in `client_id` or secret gives a 401 with an empty body.

@@ -2,7 +2,7 @@
 
 # Used by adapters whose provider takes the Peppol document itself (every
 # European access point; some PINT providers) rather than a provider JSON.
-# The builder reads only ERPNext fields and asks the profile for every code,
+# The builder reads only thinkNXG ERP fields and asks the profile for every code,
 # so the same function produces a PINT-OM invoice and a BIS 3.0 invoice.
 
 #     from einvoice_erpgulf.core.standards.ubl.builder import build_ubl
@@ -233,7 +233,7 @@
 # 	allowance_total = 0.0
 # 	if discount:
 # 		allowance_total = discount
-# 		# ERPNext applies the discount before tax when apply_discount_on is Net Total
+# 		# thinkNXG ERP applies the discount before tax when apply_discount_on is Net Total
 # 		ac = _add(root, "cac", "AllowanceCharge")
 # 		_add(ac, "cbc", "ChargeIndicator", "false")
 # 		_add(ac, "cbc", "AllowanceChargeReason", "Discount")
@@ -304,7 +304,7 @@
 
 Used by adapters whose provider takes the Peppol document itself (every
 European access point; some PINT providers) rather than a provider JSON.
-The builder reads only ERPNext fields and asks the profile for every code,
+The builder reads only thinkNXG ERP fields and asks the profile for every code,
 so the same function produces a PINT-OM invoice and a BIS 3.0 invoice.
 
     from einvoice_erpgulf.core.standards.ubl.builder import build_ubl
@@ -556,7 +556,7 @@ def build_ubl(doc, profile, supplier, customer, self_billing=False, note=None):
 	allowance_total = 0.0
 	if discount:
 		allowance_total = discount
-		# ERPNext applies the discount before tax when apply_discount_on is Net Total
+		# thinkNXG ERP applies the discount before tax when apply_discount_on is Net Total
 		ac = _add(root, "cac", "AllowanceCharge")
 		_add(ac, "cbc", "ChargeIndicator", "false")
 		_add(ac, "cbc", "AllowanceChargeReason", "Discount")

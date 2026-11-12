@@ -1,7 +1,7 @@
 """Install / migrate hooks.
 
 1. Shared custom fields come from fixtures/custom_field.json through the
-   normal Frappe fixtures mechanism (module "E-Invoice").
+   normal thinkNXG fixtures mechanism (module "E-Invoice").
 2. Country fields (countries/<cc>/fixtures/custom_field.json) are installed
    here, only for countries that have at least one Company - a Belgian
    site never sees an Emirate field. Create the Company, then run

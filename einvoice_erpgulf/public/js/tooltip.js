@@ -76,14 +76,14 @@ frappe.ui.form.on('Sales Invoice', {
                         });
                         tooltipWorking = true;
                     } catch (e) {
-                        console.log('Bootstrap tooltip failed, using Frappe alert fallback');
+                        console.log('Bootstrap tooltip failed, using thinkNXG alert fallback');
                     }
 
-                    // COMBINED mouseenter — color highlight + Frappe alert fallback together
+                    // COMBINED mouseenter — color highlight + thinkNXG alert fallback together
                     $icon.on('mouseenter', function () {
                         $(this).css('color', '#1a73e8');
 
-                        // Method 2: Frappe alert fallback (only if Bootstrap tooltip not working)
+                        // Method 2: thinkNXG alert fallback (only if Bootstrap tooltip not working)
                         if (!tooltipWorking) {
                             frappe.show_alert({
                                 message: `<b>Info:</b> ${text}<br><a href="${url}" target="_blank" 

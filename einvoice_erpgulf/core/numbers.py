@@ -11,7 +11,7 @@ SIX = Decimal("0.000001")
 
 
 def dec(value):
-	"""Decimal from anything ERPNext hands us (float, int, str, None)."""
+	"""Decimal from anything thinkNXG ERP hands us (float, int, str, None)."""
 	return Decimal(str(value or 0))
 
 

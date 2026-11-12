@@ -459,7 +459,7 @@ class FlickAdapter(BaseAdapter):
 
         endpoint = self.get_webhook_listener_url()
         payload = {
-            "name": "ERPNext Webhook",
+            "name": "thinkNXG ERP Webhook",
             "endpoint": endpoint,
             "event_types": [
                 "document.received",
@@ -580,7 +580,7 @@ class FlickAdapter(BaseAdapter):
     #         "lines": lines,
     #     }
 
-        # e-invoice (UN/ECE) unit code -> ERPNext UOM
+        # e-invoice (UN/ECE) unit code -> thinkNXG ERP UOM
     UOM_FROM_CODE = {
         "H87": "Nos", "C62": "Nos", "EA": "Nos", "BX": "Box", "KGM": "Kg",
         "GRM": "Gram", "LTR": "Litre", "MTR": "Meter", "HUR": "Hour",
@@ -588,7 +588,7 @@ class FlickAdapter(BaseAdapter):
     }
 
     def _erpnext_uom(self, code):
-        """Map a UN/ECE unit code to an existing ERPNext UOM, else Nos."""
+        """Map a UN/ECE unit code to an existing thinkNXG ERP UOM, else Nos."""
         code = (code or "").strip()
         if code and frappe.db.exists("UOM", code):
             return code

@@ -712,7 +712,7 @@ def build_uae_invoice_json(invoice_number):
         country_code1 = country_dict[address_data.country.lower()]
     else:
         country_code1 = "AE" 
-    # legal_monetary_total straight from ERPNext's own totals
+    # legal_monetary_total straight from thinkNXG ERP's own totals
     line_extension_amount = r2(sales_invoice_doc.net_total + (sales_invoice_doc.discount_amount or 0))
     tax_exclusive_amount = r2(sales_invoice_doc.net_total)
     tax_inclusive_amount = r2(sales_invoice_doc.grand_total)

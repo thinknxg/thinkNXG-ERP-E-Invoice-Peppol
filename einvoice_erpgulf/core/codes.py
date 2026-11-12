@@ -11,7 +11,7 @@ INVOICE_TYPE_SELF_BILLED_INVOICE = "389"
 INVOICE_TYPE_SELF_BILLED_CREDIT_NOTE = "396"
 
 # ---------------------------------------------------------------- UN/ECE Rec 20 units
-# ERPNext UOM (lower-cased) -> UNECE Rec 20 code. "piece" style units map to
+# thinkNXG ERP UOM (lower-cased) -> UNECE Rec 20 code. "piece" style units map to
 # `piece_code`, because providers differ on EA vs H87 (C62 in older BIS).
 PIECE_UOMS = ("nos", "unit", "each", "pcs", "piece")
 UOM_TO_UNECE_BASE = {
