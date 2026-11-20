@@ -69,6 +69,7 @@ einvoice_providers = {
     "OM": {
         # Oman-accredited providers, each in its own Oman folder:
         # "Flick Network L.L.C": "einvoice_erpgulf.countries.om.providers.flick.adapter.FlickAdapter",
+        "ConvergeX": "einvoice_erpgulf.countries.om.providers.convergex.adapter.ConvergeXAdapter",
     },
     "BE": {
         # Peppol access points for Belgium:
@@ -97,7 +98,7 @@ doctype_js = {
         "public/js/sales_invoice.js",
         "public/js/tooltip.js",
         "public/js/badge_sales.js",
-        
+        "public/js/convergex_sales_invoice.js",
     ],
     "Purchase Invoice": [
         "public/js/einvoice_common.js",
@@ -154,6 +155,7 @@ scheduler_events = {
         ],
         "*/5 * * * *": [
             "einvoice_erpgulf.core.status_sync.sync_pending_invoices",
+            "einvoice_erpgulf.countries.om.providers.convergex.jobs.poll_pending_jobs",
         ],
     }
 }

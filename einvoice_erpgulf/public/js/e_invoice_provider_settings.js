@@ -39,7 +39,8 @@ frappe.ui.form.on("E-Invoice Provider Settings", {
             });
         }, __("E-Invoicing"));
 
-        frm.add_custom_button(__("Get Access Token"), function () {
+        // ConvergeX tokens stay server-side (Redis); Verify Token tests the login.
+        if (frm.doc.provider !== "ConvergeX") frm.add_custom_button(__("Get Access Token"), function () {
             frappe.call({
                 method: "einvoice_erpgulf.core.verify_token.get_access_token",
                 args: { company: frm.doc.company, provider_settings: frm.doc.name },

@@ -6,7 +6,7 @@ One app, one folder per country, one folder per provider under it. The common co
 
 | | |
 | --- | --- |
-| Countries shipped | **United Arab Emirates** (PINT-AE, FTA, accredited ASPs) — in production. **Oman** (PINT-OM, Oman Tax Authority) — profile ready, four constants to confirm against the OTA specification. **Belgium** (Peppol BIS 3.0 / EN 16931, mandatory B2B since 2026) — access point **A-Cube**, tested on the A-Cube sandbox. Any other PINT or EN 16931 country is a profile away; the [Country Guide](docs/COUNTRIES.md) covers each one. |
+| Countries shipped | **United Arab Emirates** (PINT-AE, FTA, accredited ASPs) — in production. **Oman** (PINT-OM, Oman Tax Authority) — profile ready, four constants to confirm against the OTA specification; provider **ConvergeX** integrated, API contract awaiting confirmation from ConvergeX ([ConvergeX Guide](docs/CONVERGEX.md)). **Belgium** (Peppol BIS 3.0 / EN 16931, mandatory B2B since 2026) — access point **A-Cube**, tested on the A-Cube sandbox. Any other PINT or EN 16931 country is a profile away; the [Country Guide](docs/COUNTRIES.md) covers each one. |
 | Providers | Provider-agnostic. Each is one folder under `countries/<cc>/providers/`; the live list is `einvoice_providers` in `hooks.py`. Pull requests for new providers and countries are welcome. |
 | Documents | Sales Invoice (invoice, credit note), Purchase Invoice (self-billed invoice and credit note), incoming supplier invoices |
 | thinkNXG / thinkNXG ERP | Version 15 and 16 · also available on thinkNXG Cloud |
@@ -22,6 +22,7 @@ Successor of `uae_erpgulf`. Existing sites move over with one command — see [M
 | [End User Guide](docs/USER_GUIDE.md) | Accountants and admins | Setting up Company, Provider Settings and master data; submitting invoices; statuses and the ribbon; credit notes; purchase invoices; importing incoming invoices; dashboard, reports, logs; error messages |
 | [Testing Guide](docs/TESTING_GUIDE.md) | Implementers and QA | Step-by-step UI test script (written on a UAE company) with expected results for every screen and button; acceptance checklists for a newly added provider (section 9) and a newly added country (section 10); result sheet |
 | [Developer Guide](docs/DEVELOPER_GUIDE.md) | thinkNXG developers and partners | Architecture, the adapter contract, country profiles and standards, how to add a provider, how to add a country, webhooks and status sync, rules and gotchas |
+| [ConvergeX Guide](docs/CONVERGEX.md) | Developers and implementers (Oman) | The ConvergeX provider: architecture, configuration, authentication, API contract and overrides, field mapping, submission and async workflow, status mapping, errors and retries, sandbox and production steps, and what is still needed from ConvergeX |
 | [Country Guide](docs/COUNTRIES.md) | Developers, partners, implementers | Which countries fit the app and how big each port is: full fact sheets for the UAE, Oman and Belgium; candidates on the same model (Singapore, Malaysia, Bahrain) and on Peppol with a profile (Australia/NZ, Japan, Netherlands, Nordics, Germany, France); the clearance-platform countries that stay separate apps; a ten-question checklist that yields a complete country profile |
 
 ## How it works

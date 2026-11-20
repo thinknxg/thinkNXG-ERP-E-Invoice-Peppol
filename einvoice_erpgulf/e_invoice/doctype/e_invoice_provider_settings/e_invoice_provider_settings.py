@@ -15,6 +15,7 @@ class EInvoiceProviderSettings(Document):
 		self.check_provider_registered()
 		self.check_duplicate()
 		self.check_auth_fields()
+		self.validate_provider_specific()
 		self.enforce_single_enabled_environment()
 		self.set_webhook_url()
 
@@ -23,6 +24,24 @@ class EInvoiceProviderSettings(Document):
 			frappe.throw(_("Please enter the API Key for Auth Type api_key."))
 		if self.auth_type == "oauth2" and not (self.client_id and self.get_password("client_secret", raise_exception=False)):
 			frappe.throw(_("Please enter Client ID and Client Secret for Auth Type oauth2."))
+
+	def validate_provider_specific(self):
+		"""Optional per-adapter checks: an adapter may define
+		validate_settings() returning (errors, warnings). Adapters without
+		it are unaffected."""
+		if not self.provider or not self.company:
+			return
+		from einvoice_erpgulf.core.registry import get_adapter
+
+		adapter = get_adapter(self)
+		validator = getattr(adapter, "validate_settings", None)
+		if not validator:
+			return
+		errors, warnings = validator()
+		if errors:
+			frappe.throw("<br>".join(errors), title=_("{0} settings").format(self.provider))
+		for message in warnings or []:
+			frappe.msgprint(message, indicator="orange", alert=True)
 
 	def check_provider_registered(self):
 		"""A row can only be saved for a provider that has an adapter in
